@@ -1,6 +1,11 @@
 Seminarjs-Contest
 =================
 
+[![Build Status](http://img.shields.io/travis/Nichejs/Seminarjs-Contest/master.svg?style=flat-square)](https://travis-ci.org/Nichejs/Seminarjs-Contest)
+[![Dependency Status](http://img.shields.io/david/Nichejs/Seminarjs-Contest.svg?style=flat-square)](https://david-dm.org/Nichejs/Seminarjs-Contest)
+[![npm version](http://img.shields.io/npm/v/seminarjs-contest.svg?style=flat-square)](https://www.npmjs.org/package/seminarjs-contest)
+[![license](http://img.shields.io/npm/l/seminarjs-contest.svg?style=flat-square)](https://www.npmjs.org/package/seminarjs-contest)
+
 Live programming contest plugin for Seminarjs
 
 
