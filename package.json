@@ -28,6 +28,7 @@
   "dependencies": {
     "socket.io": "^1.1.0",
     "express": "^4.9.5",
-    "mime": "^1.2.11"
+    "mime": "^1.2.11",
+    "body-parser": "^1.9.0"
   }
 }

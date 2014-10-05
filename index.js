@@ -18,12 +18,12 @@ module.exports = function (seminarjs) {
 		});
 
 		// Add the contest endpoint to show each user's progress
-		seminarjs.app.use('/contest', function (req, res, next) {
+		seminarjs.app.get('/contest/index.html', function (req, res, next) {
 			if (req.method !== 'GET') {
 				next();
 				return;
 			}
-			res.sendFile(__dirname + "/public/html/" + req.path);
+			res.sendFile(__dirname + "/public/html/index.html");
 		});
 
 		// Start the server
