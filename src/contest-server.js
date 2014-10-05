@@ -3,5 +3,5 @@
  */
 
 module.exports = function (seminarjs) {
-	console.log("Seminarjs Contest started");
+	console.log("[Start] Seminarjs Contest server");
 }
