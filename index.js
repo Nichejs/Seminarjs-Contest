@@ -1,4 +1,7 @@
-var Contest = function (seminarjs) {
+var path = require('path'),
+	mime = require('mime');
+
+module.exports = function (seminarjs) {
 	if (typeof (seminarjs) == 'undefined') {
 		console.error('[ERROR] Seminarjs not detected');
 		process.exit(-1);
@@ -14,6 +17,18 @@ var Contest = function (seminarjs) {
 			res.sendFile(__dirname + "/public/" + req.path);
 		});
 
+		// Expose the Contest client for download
+		seminarjs.app.use('/contest/seminarContest.js', function (req, res, next) {
+			if (req.method !== 'GET') {
+				next();
+				return;
+			}
+
+			var file = __dirname + '/src/seminarContest.js';
+
+			res.download(file);
+		});
+
 		// Add the contest endpoint to show each user's progress
 		seminarjs.app.use('/contest', function (req, res, next) {
 			if (req.method !== 'GET') {
@@ -23,15 +38,11 @@ var Contest = function (seminarjs) {
 			res.sendFile(__dirname + "/public/html/" + req.path);
 		});
 
+		// Start the server
+		var contestServer = require('./src/contest-server.js');
+		contestServer(seminarjs);
+
 	} catch (e) {
 		console.error(e.getMessage());
 	}
 };
-
-Contest.prototype.start = function (options) {
-	// Start the contest server
-	var contestServer = require('./src/contest-server.js');
-	contestServer(seminarjs);
-}
-
-var contest = module.exports = exports = new Contest();
