@@ -4,6 +4,7 @@
   "description": "Live programming contest plugin for Seminarjs",
   "main": "index.js",
   "scripts": {
+    "start": "node standalone.js",
     "test": "npm test"
   },
   "repository": {
@@ -26,9 +27,11 @@
   },
   "homepage": "https://github.com/Nichejs/Seminarjs-Contest",
   "dependencies": {
-    "socket.io": "^1.1.0",
-    "express": "^4.9.5",
+    "body-parser": "^1.9.0",
+    "dotenv": "^0.4.0",
+    "express": "^4.10.1",
     "mime": "^1.2.11",
-    "body-parser": "^1.9.0"
+    "mongoose": "^3.8.18",
+    "socket.io": "^1.1.0"
   }
 }

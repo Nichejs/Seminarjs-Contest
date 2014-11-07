@@ -2,7 +2,7 @@
  * Nodejs Contest system for Seminarjs
  */
 
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 
 module.exports = function (seminarjs) {
 	console.log("[Start] Seminarjs Contest server");

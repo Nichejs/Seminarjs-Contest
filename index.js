@@ -8,14 +8,6 @@ module.exports = function (seminarjs) {
 	}
 
 	try {
-		// Contest plugin endpoint for css/js client files
-		seminarjs.app.use('/plugins/contest/', function (req, res, next) {
-			if (req.method !== 'GET') {
-				next();
-				return;
-			}
-			res.sendFile(__dirname + "/public/" + req.path);
-		});
 
 		// Add the contest endpoint to show each user's progress
 		seminarjs.app.get('/contest/index.html', function (req, res, next) {
@@ -24,6 +16,15 @@ module.exports = function (seminarjs) {
 				return;
 			}
 			res.sendFile(__dirname + "/public/html/index.html");
+		});
+
+		// Contest plugin endpoint for css/js client files
+		seminarjs.app.use('/plugins/contest/', function (req, res, next) {
+			if (req.method !== 'GET') {
+				next();
+				return;
+			}
+			res.sendFile(__dirname + "/public/" + req.path);
 		});
 
 		// Start the server

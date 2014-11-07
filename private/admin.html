@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard Starter UI, by Keen IO</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/plugins/contest/css/standalone-dashboard.css">
+  </head>
+  <body class="application">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="./">Standalone Contest</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-left">
+            <li><a href="/contest/index.html">Home</a></li>
+            <li><a href="https://github.com/Nichejs/Seminarjs">Seminarjs</a></li>
+            <li><a href="https://github.com/Nichejs/Seminarjs-Contest">Documentation</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col-sm-6">
+          <div class="chart-wrapper">
+            <div class="chart-title">
+              Add user
+            </div>
+            <div class="chart-stage">
+              <form role="form" id="newUserForm">
+                <div class="form-group">
+                  <label for="formInputName">Name</label>
+                  <input type="name" class="form-control" id="formInputName" placeholder="Enter name...">
+                </div>
+                <button type="submit" class="btn btn-default">Add</button>
+              </form>
+            </div>
+            <div class="chart-notes">
+              Careful! Poor validation going on
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="chart-wrapper">
+            <div class="chart-title">
+              Contest Users
+            </div>
+            <div class="chart-stage">
+              <table class="table table-striped" id="userListTable">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Round</th>
+                    <th>Token</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!--<div class="row">
+
+        <div class="col-sm-12">
+          <div class="chart-wrapper">
+            <div class="chart-title">
+              Impressions by advertiser
+            </div>
+            <div class="chart-stage">
+              <img data-src="holder.js/100%x150/white">
+            </div>
+            <div class="chart-notes">
+              Notes go down here
+            </div>
+          </div>
+        </div>
+
+      </div>-->
+
+    </div>
+  
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('#newUserForm').submit(function(e){
+          e.preventDefault();
+          $.post("/contest/api/users", { name: $('#formInputName').val() }, function(res){
+              reloadUsers();
+            }
+          );
+        });
+
+        reloadUsers();
+      });
+
+      function reloadUsers(){
+        $.get('/contest/api/users', function(data){
+          var $tbody = $('#userListTable tbody');
+          $tbody.html('');
+          for(var i=0; i<data.length; i++){
+            $tbody.append('<tr><td>'+data[i].name+'</td><td>'+data[i].contest.round+'</td><td>'+data[i].contest.token+'</td></tr>');
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
