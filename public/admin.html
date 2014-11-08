@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Dashboard Starter UI, by Keen IO</title>
+    <title>Contest Admin</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/plugins/contest/css/standalone-dashboard.css">
+    <link rel="stylesheet" href="/contest/css/standalone-dashboard.css">
   </head>
   <body class="application">
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -62,6 +62,7 @@
                     <th>Name</th>
                     <th>Round</th>
                     <th>Token</th>
+                    <th>Progress</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -100,7 +101,7 @@
       $(document).ready(function(){
         $('#newUserForm').submit(function(e){
           e.preventDefault();
-          $.post("/contest/api/users", { name: $('#formInputName').val() }, function(res){
+          $.post("/api/contest/users", { name: $('#formInputName').val() }, function(res){
               reloadUsers();
             }
           );
@@ -110,11 +111,11 @@
       });
 
       function reloadUsers(){
-        $.get('/contest/api/users', function(data){
+        $.get('/api/contest/users', function(data){
           var $tbody = $('#userListTable tbody');
           $tbody.html('');
           for(var i=0; i<data.length; i++){
-            $tbody.append('<tr><td>'+data[i].name+'</td><td>'+data[i].contest.round+'</td><td>'+data[i].contest.token+'</td></tr>');
+            $tbody.append('<tr><td>'+data[i].name+'</td><td>'+data[i].contest.round+'</td><td>'+data[i].contest.token+'</td><td>'+data[i].contest.progress+'%</td></tr>');
           }
         });
       }

@@ -6,19 +6,8 @@
  */
 
 var bodyParser = require('body-parser'),
-	mongoose = require('mongoose');
-
-var Schema = mongoose.Schema;
-
-var userSchema = new Schema({
-	name: String,
-	contest: {
-		round: Number,
-		token: String
-	}
-});
-
-var User = mongoose.model('User', userSchema);
+	mongoose = require('mongoose'),
+	User = require('./models/User.js');
 
 module.exports = function (seminarjs) {
 	seminarjs.app.get('/contest/admin.html', function (req, res, next) {
@@ -30,9 +19,11 @@ module.exports = function (seminarjs) {
 	});
 
 	// Getting a list of users
-	seminarjs.app.get('/contest/api/users', function (req, res) {
+	seminarjs.app.get('/api/contest/users', function (req, res) {
 		User
-			.find({}, function (err, results) {
+			.find({})
+			.sort('-contest.progress')
+			.exec(function (err, results) {
 				if (err) {
 					console.log('[ERROR] ' + err);
 					next();
@@ -54,7 +45,7 @@ module.exports = function (seminarjs) {
 			extended: true
 		});
 	// Adding users
-	seminarjs.app.post('/contest/api/users', jsonParser, urlParser, function (req, res) {
+	seminarjs.app.post('/api/contest/users', jsonParser, urlParser, function (req, res) {
 		var name = req.body.name;
 
 		if (typeof (name) === 'undefined' ||  !name ||  name.length < 1) {
@@ -65,8 +56,9 @@ module.exports = function (seminarjs) {
 		var user = new User({
 			name: name,
 			contest: {
-				round: 1,
-				token: name
+				round: 0,
+				token: name,
+				progress: 0
 			}
 		});
 

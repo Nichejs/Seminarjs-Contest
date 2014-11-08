@@ -2,36 +2,11 @@
  * Nodejs Contest system for Seminarjs
  */
 
-var bodyParser = require('body-parser');
+var bodyParser = require('body-parser'),
+	User = require('./models/User.js');
 
 module.exports = function (seminarjs) {
 	console.log("[Start] Seminarjs Contest server");
-
-	// This will come from the database later on
-	// It includes the contest round they are in
-	var users = [
-		{
-			'id': 1,
-			'name': 'test1',
-			'level': 'user',
-			'round': 0
-		},
-		{
-			'id': 2,
-			'name': 'test2',
-			'level': 'user',
-			'round': 1
-		}
-	];
-
-	// Tokens array, mapping token => user_id
-	// the user data already contains the round they are in
-	var tokens = [
-		{
-			token: '123',
-			user: 1
-		}
-	];
 
 	// Contest data, should also come from the db at some point
 	// this might change quite a lot in future versions
@@ -41,44 +16,86 @@ module.exports = function (seminarjs) {
 		{
 			// Input can be fixed or a function
 			'input': [
-				123456,
-				91747,
-				45717
+				'2 4 8 -3 18 -5',
+				'1 29 -100 9983838 -4',
+				'0 -78 3672 10000000 -10000000',
+				'1e10 1e11 -1e12'
 			],
 			// Output can be fixed or a function
 			'output': [
-				1,
-				9,
-				4
+				'24',
+				'9983764',
+				'3594',
+				'-890000000000'
 			]
 		},
 		// Round 2
 		{
 			// Input can be fixed or a function
 			'input': [
-				'abc'
+				'sasjdkfjalsdjf asdjfk asdfkasdjflkjasdkfjalsdfj jsadkf fasd',
+				'a 4 -5 gjghg ·%&/·%$&$G >ZDdfw+`+'
 			],
 			// Output can be fixed or a function
 			'output': [
-				3
+				'*****************************',
+				'* sasjdkfjalsdjf            *',
+				'* asdjfk                    *',
+				'* asdfkasdjflkjasdkfjalsdfj *',
+				'* jsadkf                    *',
+				'* fasd                      *',
+				'*****************************',
+				'**************',
+				'* a          *',
+				'* 4          *',
+				'* -5         *',
+				'* gjghg      *',
+				'* ·%&/·%$&$G *',
+				'* >ZDdfw+`+  *',
+				'**************'
+			]
+		},
+		// Round 3
+		{
+			// Input can be fixed or a function
+			'input': [
+				2178309,
+				2178509,
+				3524578,
+				3524579,
+				5702887,
+				9227465,
+				14930352,
+				24157817
+			],
+			// Output can be fixed or a function
+			'output': [
+				'si',
+				'no',
+				'si',
+				'no',
+				'si',
+				'si',
+				'si',
+				'si'
 			]
 		}
 	];
 
 	// Now expose the API endpoints
-
 	seminarjs.app.get('/contest/input', function (req, res) {
 		res.setHeader('Content-Type', 'text/plain');
 
-		var token = req.query.token,
-			user = getUserFromToken(token);
+		var token = req.query.token;
 
-		if (!user) {
-			res.status(401).send('Error: Invalid token');
-			return;
-		}
-
-		res.send(contestData[user.round].input.join("\n"));
+		getUserFromToken(token, function (user) {
+			if (!user) {
+				res.status(401).send('Error: Invalid token');
+				return;
+			} else {
+				res.send(contestData[user.contest.round].input.join("\n"));
+			}
+		});
 	});
 
 	var textParser = bodyParser.text();
@@ -88,55 +105,69 @@ module.exports = function (seminarjs) {
 
 		if (typeof req.body !== 'string' || !req.body || req.body.length < 1) return res.status(400).send('Error: No output received');
 
-		var token = req.query.token,
-			user = getUserFromToken(token);
+		var token = req.query.token;
 
-		if (!user) {
-			res.status(401).send('Error: Invalid token');
-			return;
-		}
+		getUserFromToken(token, function (user) {
+			if (!user) {
+				res.status(401).send('Error: Invalid token');
+				return;
+			}
 
-		// Make sure body is a string
-		req.body += "";
+			// Make sure body is a string
+			req.body += "";
 
-		// Validate the output
-		var output = req.body.split("\n"),
-			total = contestData[user.round].output.length,
-			correct = 0;
+			// Validate the output
+			var output = req.body.split("\n"),
+				total = contestData[user.contest.round].output.length,
+				correct = 0;
 
-		res.write('Line	|	Status' + "\n");
+			res.write('Welcome ' + user.name + "\n");
+			res.write('Line	|	Status' + "\n");
 
-		for (var i = 0; i < total; i++) {
-			var line = i + '	|	',
+			for (var i = 0; i < total; i++) {
+				var line = i + '	|	',
+					status = 'FAIL';
+				if (typeof output[i] !== 'undefined' && output[i] == contestData[user.contest.round].output[i]) {
+					correct++;
+					status = 'OK';
+				} else {
+					console.log("[Verify] User=" + user.name + ', Round=' + user.contest.round + ', output=' + output[i]);
+				}
+				res.write(line + status + "\n");
+			}
+
+			res.write('--------------------------' + "\n");
+
+			var passed = false,
+				percentage = correct * 100 / total,
 				status = 'FAIL';
-			if (typeof output[i] !== 'undefined' && output[i] == contestData[user.round].output[i]) {
-				correct++;
+
+			if (percentage == 100) {
+				passed = true;
 				status = 'OK';
 			}
-			res.write(line + status + "\n");
-		}
 
-		res.write('--------------------------' + "\n");
+			res.write('STATUS ' + percentage + '% ' + status + "\n");
 
-		var passed = false,
-			percentage = correct * 100 / total,
-			status = 'FAIL';
+			user.contest.progress = percentage;
 
-		if (percentage == 100) {
-			passed = true;
-			status = 'OK';
-		}
+			if (passed) {
+				//var token = Math.floor(Math.random() * 10000) + 100;
 
-		res.write('STATUS ' + percentage + '% ' + status + "\n");
+				//user.contest.token = token;
+				user.contest.round = user.contest.round + 1;
+				user.contest.progress = 0;
 
-		if (passed) {
-			removeToken(user.id);
-			var token = generateNewToken(user.id);
-			updateUserData(user.id, 'round', user.round + 1);
+				res.write('New token: ' + user.contest.token);
+			}
 
-			res.write('New token: ' + token);
-		}
-		res.end();
+			user.save(function (err) {
+				if (err) return handleError(err);
+
+				res.end();
+			});
+		});
+
 	});
 
 	// --------------------------------------- //
@@ -148,76 +179,16 @@ module.exports = function (seminarjs) {
 	 * @param  {String} token User token
 	 * @return {Object}       User data object
 	 */
-	function getUserFromToken(token) {
-		var numTokens = tokens.length,
-			numUsers = users.length,
-			usid = -1;
+	function getUserFromToken(token, callback) {
 
-		for (var i = 0; i < numTokens; i++) {
-			if (tokens[i].token == token) {
-				usid = tokens[i].user;
-				break;
+		User.findOne({
+			'contest.token': token
+		}, function (err, person) {
+			if (err) {
+				console.log('[ERROR] ' + err);
+				callback(false);
 			}
-		}
-		if (usid < 0) {
-			return false;
-		}
-		// Return the user
-		for (var i = 0; i < numUsers; i++) {
-			if (users[i].id == usid) {
-				return users[i];
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Update a field in a user model
-	 * @param  {int} 	usid  User id
-	 * @param  {String} data  Column to update
-	 * @param  {String} value New value
-	 * @return {boolean}      Whether it was updated
-	 */
-	function updateUserData(usid, data, value) {
-		var numUsers = users.length,
-			index = -1;
-
-		for (var i = 0; i < numUsers; i++) {
-			if (users[i].id == usid) {
-				users[i][data] = value;
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Remove all tokens associated with a user id
-	 * @param  {int} 	usid User id
-	 * @return {boolean}     True if deleted
-	 */
-	function removeToken(usid) {
-		var numTokens = tokens.length;
-		for (var i = 0; i < numTokens; i++) {
-			if (tokens[i].user == usid) {
-				delete tokens[i];
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Generate a new token for a user
-	 * @param  {int} 	usid User id
-	 * @return {String}      Token
-	 */
-	function generateNewToken(usid) {
-		var token = Math.floor(Math.random() * 10000) + 100;
-		tokens.push({
-			'token': token,
-			'user': usid
+			callback(person);
 		});
-		return token;
 	}
 }

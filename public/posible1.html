@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ej3. Seminar Contest</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/contest/css/standalone-dashboard.css">
+    <style type="text/css">
+    	td{
+    		height:30px;
+    		position:relative;
+    	}
+		.row-name{
+			position:absolute;
+			z-index:2;
+			left:20px;
+			top:10px;
+			width:100%;
+		}
+		.row-progress{
+			position:absolute;
+			left:5px;
+			top:5px;
+			height:30px;
+			background:#A7DEFC;
+		}
+    </style>
+  </head>
+  <body class="application">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="./">Standalone Contest</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-left">
+            <li><a href="/contest/index.html">Home</a></li>
+            <li><a href="https://github.com/Nichejs/Seminarjs-Contest">Documentation</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+
+	    <div class="row">
+	      <div class="col-sm-8">
+	        <div class="chart-wrapper">
+	          <div class="chart-title">
+	            Ejercicio 3: Palindromo interno
+	          </div>
+	          <div class="chart-stage">
+	            <div id="grid-1-1">
+	              <p>Encuentra el mayor palindromo posible dentro de una palabra</p>
+
+	              <p>Recuerda que un palindromo es una palabra que se escribe igual en ambas direcciones, como por ejemplo "Ana".</p>
+					
+				  <p><b>Ejemplo de input</b></p>
+<pre><code>la palabra puede ser al azar, como gtsa_hsaash_grahh
+en la anterior lo separe con _ para que se viese mejor
+</code></pre>
+				  <p><b>Ejemplo de output</b></p>
+<pre><code>_hsaash_
+ese
+</code></pre>
+
+					<hr />
+
+					<p>Para leer el input puedes usar el código a continuación, en el bucle donde esta el comentario dispones de la variable <code>line</code> que contiene el valor de esa linea.</p>
+
+<pre><code>var readline = require('readline');
+var rl = readline.createInterface({
+	input: process.stdin,
+	output: process.stdout
+});
+
+rl.on('line', function (line) {
+	// Codigo aqui
+});
+</code></pre>
+
+					<p>Para mostrar las respuestas para cada linea usa <code>console.log();</code></p>
+
+					<p>Si quieres programarlo en una función puedes usar lo siguiente:</p>
+<pre><code>var readline = require('readline');
+var rl = readline.createInterface({
+	input: process.stdin,
+	output: process.stdout
+});
+
+rl.on('line', function (line) {
+	solucion(line);
+});
+
+
+function solucion(line){
+	// Aqui tu solucion, que usa una linea de codigo
+}
+</code></pre>
+
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	      <div class="col-sm-4">
+	        <div class="chart-wrapper">
+	            <div class="chart-title">
+	              Ranking
+	            </div>
+	            <div class="chart-stage">
+	              <table class="table table-striped" id="userListTable">
+	                <tbody>
+	                </tbody>
+	              </table>
+	            </div>
+	            <div class="chart-notes">
+	              Contest users ordered by ranking
+	            </div>
+	          </div>
+	      </div>
+	    </div>
+
+    </div>
+
+    <footer>
+    	<p class="text-center text-muted">Curso Básico JavaScript &bull; Powered by <a href="https://github.com/Nichejs/Seminarjs">Seminarjs</a> - By <a href="http://nichejs.com">Nichejs</a></p>
+    </footer>
+  
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+		$(document).ready(function(){
+			reloadUsers();
+
+			setInterval(reloadUsers, 5000);
+		});
+
+		function reloadUsers(){
+			$.get('/api/contest/users', function(data){
+			  var $tbody = $('#userListTable tbody');
+			  $tbody.html('');
+
+			  data.sort(compare);
+
+			  var usersLeft = data.length,
+			  	  round = 10,
+			  	  roundSetup = false;
+
+			  while(usersLeft > 0){
+			  	for(var i=0; i<data.length; i++){
+			  		if(data[i].contest.round !== round) continue;
+			  		if(!roundSetup) $tbody.append('<h4>Ejercicio '+(round+1)+'</h4>');
+			  		roundSetup=true;
+			      	$tbody.append('<tr><td><div class="row-name">'+data[i].name+' ['+data[i].contest.progress+'%]</div><div class="row-progress" style="width:'+data[i].contest.progress+'%"></div></td></tr>');
+			      	usersLeft--;
+			    }
+			    round--;
+			    roundSetup=false;
+			  }
+			});
+		}
+
+      	function compare(a,b) {
+		  if (a.contest.progress < b.contest.progress)
+		     return -1;
+		  if (a.contest.progress> b.contest.progress)
+		    return 1;
+		  return 0;
+		}
+    </script>
+  </body>
+</html>

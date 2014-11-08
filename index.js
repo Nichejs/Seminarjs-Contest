@@ -9,17 +9,11 @@ module.exports = function (seminarjs) {
 
 	try {
 
-		// Add the contest endpoint to show each user's progress
-		seminarjs.app.get('/contest/index.html', function (req, res, next) {
-			if (req.method !== 'GET') {
-				next();
-				return;
-			}
-			res.sendFile(__dirname + "/public/html/index.html");
-		});
+		// Start the server
+		var contestServer = require('./src/contest-server.js')(seminarjs);
 
-		// Contest plugin endpoint for css/js client files
-		seminarjs.app.use('/plugins/contest/', function (req, res, next) {
+		// Add the contest endpoint to show each user's progress
+		seminarjs.app.use('/contest/', function (req, res, next) {
 			if (req.method !== 'GET') {
 				next();
 				return;
@@ -27,9 +21,14 @@ module.exports = function (seminarjs) {
 			res.sendFile(__dirname + "/public/" + req.path);
 		});
 
-		// Start the server
-		var contestServer = require('./src/contest-server.js');
-		contestServer(seminarjs);
+		/*// Contest plugin endpoint for css/js client files
+		seminarjs.app.use('/plugins/contest/', function (req, res, next) {
+			if (req.method !== 'GET') {
+				next();
+				return;
+			}
+			res.sendFile(__dirname + "/public/" + req.path);
+		});*/
 
 	} catch (e) {
 		console.error(e.getMessage());
