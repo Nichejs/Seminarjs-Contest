@@ -70,7 +70,44 @@
 8
 </code></pre>
 
+					<p>Pista:</p>
+					<ol>
+						<li>Necesitas convertir la cadena <code>line</code> en un array, que quede asi <code>[2, 3]</code></li>
+						<li>Crea una variable iniciada a <code>0</code></li>
+						<li>Ahora hay que hacer un bucle que recorra el array</li>
+						<li>Hay que convertir el elemento actual a número, y sumarlo a la variable que hicimos antes</li>
+						<li>Finalmente, fuera del bucle, mostrar la variable con <code>console.log();</code></li>
+					</ol>
+
 					<hr />
+
+					<h2>Lee las guias a continuación:</h2>
+
+					<h4>Probar tu código:</h4>
+
+					Recuerda que debes tener instalado <a href="http://nodejs.org/">Nodejs</a>. Una vez instalado haz lo siguiente:
+
+					<ol>
+						<li>Abre la consola/terminal. En windows puedes darle a Inicio, teclear <code>cmd</code> y pulsar Enter.</li>
+						<li>Ahora copia/pega este comando: <br />
+						<pre><code>npm install seminarjs-contestclient -g</code></pre>
+						</li>
+					</ol>
+
+					<p></p>Para escribir tu solución al enunciado haz una carpeta en tu ordenador, y guarda dentro un archivo llamado por ejemplo <code>ej1.js</code>. Ahora vuelve a abrir la consola/terminal (instrucciones más arriba) y vete al directorio donde tienes el archivo, si estuviese en Documentos/Ejercicios harías <code>cd Documentos/Ejercicios</code>.</p>
+
+					<p>Finalmente ejecuta <code>node ej1.js</code> para ejecutar tu código en la consola. Para ver cómo leer el input del programa baja al paso "Programar la solución"</p>
+
+					<h4>Enviar la solución:</h4>
+
+					<p>Cuando tengas la solución lista y quieras probarla definitivamente, ejecuta el siguiente comando en la misma consola y directorio. Donde pone <b>token</b> tienes que poner tu correo electrónico hasta la @ sin incluirla.</p>
+
+					<p><pre><code>seminarjsContest ejercicios.nichejs.com [token] [archivo.js]</code></pre></p>
+
+					<p><small>No pongas los [], son para indicarte donde tienes que rellenar.</small></p>
+
+
+					<h4>Programar la solución:</h4>
 
 					<p>Para leer el input puedes usar el código a continuación, en el bucle donde esta el comentario dispones de la variable <code>line</code> que contiene el valor de esa linea.</p>
 
@@ -170,9 +207,9 @@ function solucion(line){
 		}
 
       	function compare(a,b) {
-		  if (a.contest.progress < b.contest.progress)
+		  if (a.contest.progress > b.contest.progress)
 		     return -1;
-		  if (a.contest.progress> b.contest.progress)
+		  if (a.contest.progress < b.contest.progress)
 		    return 1;
 		  return 0;
 		}

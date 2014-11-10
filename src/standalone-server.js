@@ -18,11 +18,15 @@ module.exports = function (seminarjs) {
 		res.sendFile(seminarjs.root + "/private/admin.html");
 	});
 
+	seminarjs.app.get('/', function (req, res) {
+		res.redirect('/contest');
+	});
+
 	// Getting a list of users
 	seminarjs.app.get('/api/contest/users', function (req, res) {
 		User
 			.find({})
-			.sort('-contest.progress')
+			.sort('+contest.progress')
 			.exec(function (err, results) {
 				if (err) {
 					console.log('[ERROR] ' + err);
@@ -33,6 +37,7 @@ module.exports = function (seminarjs) {
 				var userMap = [];
 
 				results.forEach(function (user) {
+					user.contest.progress = Math.floor(user.contest.progress);
 					userMap.push(user);
 				});
 

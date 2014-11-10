@@ -179,9 +179,9 @@ function solucion(line){
 		}
 
       	function compare(a,b) {
-		  if (a.contest.progress < b.contest.progress)
+		  if (a.contest.progress > b.contest.progress)
 		     return -1;
-		  if (a.contest.progress> b.contest.progress)
+		  if (a.contest.progress < b.contest.progress)
 		    return 1;
 		  return 0;
 		}
