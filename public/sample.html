@@ -1,29 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Ej2. Seminar Contest</title>
+    <title>Ej3. Seminar Contest</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/contest/css/standalone-dashboard.css">
-    <style type="text/css">
-    	td{
-    		height:30px;
-    		position:relative;
-    	}
-		.row-name{
-			position:absolute;
-			z-index:2;
-			left:20px;
-			top:10px;
-			width:100%;
-		}
-		.row-progress{
-			position:absolute;
-			left:5px;
-			top:5px;
-			height:30px;
-			background:#A7DEFC;
-		}
-    </style>
+    <link rel="stylesheet" href="/contest/css/ranking.css">
   </head>
   <body class="application">
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -53,30 +34,23 @@
 	      <div class="col-sm-8">
 	        <div class="chart-wrapper">
 	          <div class="chart-title">
-	            Ejercicio 2: Texto encajado
+	            Ejercicio 3: Fibonacci
 	          </div>
 	          <div class="chart-stage">
 	            <div id="grid-1-1">
-	              <p>Esta vez hace falta un programa algo más creativo. No te preocupes que no es muy dificil:</p>
+	              <p>Responde si o no, un número dado pertenece a la secuencia de Fibonacci</p>
 
-	              <p>Tu programa recibirá una lista de palabras, y las debe devolver metidas en una caja, con un márgen interior de al menos 1 espacio, y el menor tamaño posible.</p>
+	              <p>La secuencia de Fibonacci se genera sumando los dos anteriores números anteriores, ejemplo:<br />
+	              	<code>0 1 1 2 3 5 8 13...</code>
+	              </p>
 					
 				  <p><b>Ejemplo de input</b></p>
-<pre><code>Bienvenido a mi casa
-Qué tal todo?
+<pre><code>10
+13
 </code></pre>
 				  <p><b>Ejemplo de output</b></p>
-<pre><code>**************
-* Bienvenido *
-* a          *
-* mi         *
-* casa       *
-**************
-**************
-* Qué        *
-* tal        *
-* todo?      *
-**************
+<pre><code>no
+si
 </code></pre>
 
 					<hr />
@@ -115,9 +89,6 @@ function solucion(line){
 
 	            </div>
 	          </div>
-	          <div class="chart-notes">
-	            <a href="3.html">Siguiente ejercicio &raquo;</a>
-	          </div>
 	        </div>
 	      </div>
 	      <div class="col-sm-4">
@@ -146,45 +117,7 @@ function solucion(line){
   
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-		$(document).ready(function(){
-			reloadUsers();
-
-			setInterval(reloadUsers, 5000);
-		});
-
-		function reloadUsers(){
-			$.get('/api/contest/users', function(data){
-			  var $tbody = $('#userListTable tbody');
-			  $tbody.html('');
-
-			  data.sort(compare);
-
-			  var usersLeft = data.length,
-			  	  round = 10,
-			  	  roundSetup = false;
-
-			  while(usersLeft > 0){
-			  	for(var i=0; i<data.length; i++){
-			  		if(data[i].contest.round !== round) continue;
-			  		if(!roundSetup) $tbody.append('<h4>Ejercicio '+(round+1)+'</h4>');
-			  		roundSetup=true;
-			      	$tbody.append('<tr><td><div class="row-name">'+data[i].name+' ['+data[i].contest.progress+'%]</div><div class="row-progress" style="width:'+data[i].contest.progress+'%"></div></td></tr>');
-			      	usersLeft--;
-			    }
-			    round--;
-			    roundSetup=false;
-			  }
-			});
-		}
-
-      	function compare(a,b) {
-		  if (a.contest.progress > b.contest.progress)
-		     return -1;
-		  if (a.contest.progress < b.contest.progress)
-		    return 1;
-		  return 0;
-		}
-    </script>
+    <script type="text/javascript" src="/contest/js/moment.min.js"> </script>
+    <script type="text/javascript" src="/contest/js/contest-client.js"> </script>
   </body>
 </html>

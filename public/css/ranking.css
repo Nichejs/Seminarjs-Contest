@@ -1,0 +1,23 @@
+td{
+  height:30px;
+  position:relative;
+}
+.row-name{
+  position:absolute;
+  z-index:2;
+  left:10px;
+  top:5px;
+  width:100%;
+}
+.row-progress{
+  position:absolute;
+  left:0px;
+  top:0px;
+  height:30px;
+  background:#A7DEFC;
+  border-bottom:1px inset #fff;
+}
+.small-progress{
+  position:absolute;
+  right:10px;
+}

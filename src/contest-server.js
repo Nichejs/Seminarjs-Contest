@@ -149,7 +149,10 @@ module.exports = function (seminarjs) {
 
       res.write('STATUS ' + percentage + '% ' + status + "\n");
 
-      user.contest.progress = percentage;
+      if (percentage > user.contest.progress) {
+        user.contest.progress = percentage;
+        user.contest.date = Date.now();
+      }
 
       if (passed) {
         //var token = Math.floor(Math.random() * 10000) + 100;
