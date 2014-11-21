@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Objetos</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/contest/css/standalone-dashboard.css">
+    <link rel="stylesheet" href="/contest/css/ranking.css">
+    <link rel="stylesheet" href="/contest/prism/prism.css">
+  </head>
+  <body class="application">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="./">Standalone Contest</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-left">
+            <li><a href="/contest/index.html">Home</a></li>
+            <li><a href="/contest/1.html">Ejercicios</a></li>
+            <li><a href="https://github.com/Nichejs/Seminarjs-Contest">Documentation</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="chart-wrapper">
+            <div class="chart-title">
+              Objetos
+            </div>
+            <div class="chart-stage">
+              <div id="grid-1-1">
+                <p>Dado que los objetos son esenciales en JavaScript, vamos a practicar un poco con ellos.</p>
+
+                <p>Vas a recibir un objeto en JSON, y tienes que contar todos los atributos que sean de tipo texto. Mira bien los ejemplos para entender exáctamente lo que tienes que hacer</p>
+          
+          <p><b>Ejemplo de input</b></p>
+<pre><code>{"0":1,"1":10,"otros":["a",1888]}
+</code></pre>
+          <p><b>Ejemplo de output</b></p>
+<pre><code>1
+</code></pre>
+
+          Para dejarlo todo claro, el JSON anterior se correspone al siguiente JavaScript:
+<pre><code class="language-javascript">var object = {
+  0: 1,
+  1: 10,
+  algunaFuncion: function () {
+    console.log('ignorame!');
+  },
+  otros: ['a', 1888]
+};
+</code></pre>
+
+          <hr />
+
+          <h2>Guia del campeonato</h2>
+
+          <h4>Probar tu código:</h4>
+
+          Recuerda que debes tener instalado <a href="http://nodejs.org/">Nodejs</a>. Una vez instalado haz lo siguiente:
+
+          <ol>
+            <li>Abre la consola/terminal. En windows puedes darle a Inicio, teclear <code>cmd</code> y pulsar Enter.</li>
+            <li>Ahora copia/pega este comando: <br />
+            <pre><code>npm install seminarjs-contestclient -g</code></pre>
+            </li>
+          </ol>
+
+          <p></p>Para escribir tu solución al enunciado haz una carpeta en tu ordenador, y guarda dentro un archivo llamado por ejemplo <code>ej1.js</code>. Ahora vuelve a abrir la consola/terminal (instrucciones más arriba) y vete al directorio donde tienes el archivo, si estuviese en Documentos/Ejercicios harías <code>cd Documentos/Ejercicios</code>.</p>
+
+          <p>Finalmente ejecuta <code>node ej1.js</code> para ejecutar tu código en la consola. Para ver cómo leer el input del programa baja al paso "Programar la solución"</p>
+
+          <h4>Enviar la solución:</h4>
+
+          <p>Cuando tengas la solución lista y quieras probarla definitivamente, ejecuta el siguiente comando en la misma consola y directorio. Donde pone <b>token</b> tienes que poner tu correo electrónico hasta la @ sin incluirla.</p>
+
+          <p><pre><code>seminarjsContest ejercicios.nichejs.com [token] [archivo.js]</code></pre></p>
+
+          <p><small>No pongas los [], son para indicarte donde tienes que rellenar.</small></p>
+
+
+          <h4>Programar la solución:</h4>
+
+          <p>Para leer el input puedes usar el código a continuación, en el bucle donde esta el comentario dispones de la variable <code>line</code> que contiene el valor de esa linea.</p>
+
+<pre><code class="language-javascript">var readline = require('readline');
+var rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+rl.on('line', function (line) {
+  // Codigo aqui
+});
+</code></pre>
+
+          <p>Para mostrar las respuestas para cada linea usa <code>console.log();</code></p>
+
+          <p>Si quieres programarlo en una función puedes usar lo siguiente:</p>
+<pre><code class="language-javascript">var readline = require('readline');
+var rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+rl.on('line', function (line) {
+  solucion(line);
+});
+
+
+function solucion(line){
+  // Aqui tu solucion, que usa una linea de codigo
+}
+</code></pre>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="chart-wrapper">
+              <div class="chart-title">
+                Ranking
+              </div>
+              <div class="chart-stage">
+                <table class="table table-striped" id="userListTable">
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+              <div class="chart-notes">
+                Contest users ordered by ranking
+              </div>
+            </div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      <p class="text-center text-muted">Curso Básico JavaScript &bull; Powered by <a href="https://github.com/Nichejs/Seminarjs">Seminarjs</a> - By <a href="http://nichejs.com">Nichejs</a></p>
+    </footer>
+  
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/contest/js/moment.min.js"> </script>
+    <script type="text/javascript" src="/contest/js/contest-client.js"> </script>
+    <script type="text/javascript" src="/contest/prism/prism.js"> </script>
+  </body>
+</html>
