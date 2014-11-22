@@ -171,6 +171,8 @@ module.exports = function (seminarjs) {
         user.contest.round = user.contest.round + 1;
         user.contest.progress = 0;
 
+        user.contest.date = Date.now();
+
         res.write('New token: ' + user.contest.token);
       }
 
