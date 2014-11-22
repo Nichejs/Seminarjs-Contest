@@ -35,11 +35,11 @@ module.exports = function (seminarjs) {
            "123234",
            "12"
     ],
-      output: ["Case #1: 2",
-             "Case #2: 13",
-             "Case #3: 1",
-             "Case #4: 24",
-             "Case #5: 5"
+      output: ["2",
+             "13",
+             "1",
+             "24",
+             "5"
     ]
 },
   // Round 3: Tesoro
