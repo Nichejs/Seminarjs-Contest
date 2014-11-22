@@ -59,16 +59,29 @@
 2135
 </code></pre>
                             <p>El 3 indica que vamos a recibir 3 números, que son: 1, 6 y el 2135</p>
-                            <p>El 3 indica que vamos a recibir 3 números, que son: 1, 6 y el 2135</p>
+                            <p><b>Funció Ayuda</b>
+                            <pre><code>var numArg=0;
+var data = '';
+var addData = function(line){
+    if(numArg==0){
+        data ='';
+        numArg=parseInt(line);  
+        return;
+    }
+        
+        //funcion a ejecutar funcion(line);    
+        numArg--;
+
+}
+</code></pre>
+              
                             <p><b>Ejemplo de output</b>
                             </p>
 <pre><code>Case #1: 1 
 Case #2: 4 
 Case #3: 14 
 </code></pre>
-
-
-                            <hr />
+              <hr />
 
                             <h2>Guia del campeonato</h2>
 
