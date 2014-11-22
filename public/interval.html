@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Subida al Fito</title>
+    <title>Intervalos</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/contest/css/standalone-dashboard.css">
     <link rel="stylesheet" href="/contest/css/ranking.css">
@@ -35,71 +35,29 @@
         <div class="col-sm-8">
           <div class="chart-wrapper">
             <div class="chart-title">
-              Subida al Fito
+              Intervalos
             </div>
             <div class="chart-stage">
               <div id="grid-1-1">
-                <p>Nos gustan mucho las carreras, asi que en este caso se trata de motrar un circuito</p>
+                <p>Para un curso básico de JavaScript es esencial aprender a manejar bien los numeros. Bucles, arrays... son herramientas esenciales para desarrollar aplicaciones.</p>
 
-                <p>Vas a recibir en una linea una secuencia de codigos que describen el circuito, y tendras que dibujarlo</p>
+                <p>Recibirás en cada linea una serie de números > 0 únicos. La tarea es encontrar cadenas formadas por cualquier serie de números, siempre y cuando el primero sea el más pequeño y el último el mayor.</p>
 
-                <p>Los simbolos utilizados son:</p>
-
-                <ul>
-                  <li># Inicio de la carrera, siempre tiene que ocurrir en un tramo horizontal, y siempre se circula de izquierda a derecha.</li>
-                  <li>- Un tramo de recta</li>
-                  <li>/ Depende de la dirección actual:
-                    <ul>
-                      <li>Horizontal: Curva a la izquierda</li>
-                      <li>Vertical: Curva a la derecha</li>
-                    </ul>
-                  </li>
-                  <li>\ Depende de la dirección actual:
-                    <ul>
-                      <li>Horizontal: Curva a la derecha</li>
-                      <li>Vertical: Curva a la izquierda</li>
-                    </ul>
-                  </li>
-                </ul>
-
-                <p>Al mostrarlo, se utilizarán además lineas verticales | si el tramo es vertical. Se usará además la mínima cantidad posible de espacio blanco.</p>
-
-                <p>Los circuitos que se darán son siempre cerrados.</p>
-
-                <p>El circuito no debe cruzar sobre si mismo, si esto ocurre debes devolver ERROR</p>
+                <p>Debes devolver el número de cadenas que cumplen esas condiciones encontradas</p>
           
           <p><b>Ejemplos de input</b></p>
-<pre><code>#----\-----/-----\-----/
+<pre><code>3 1 2 5 4
+3 7 4 2 5 8 1 9 10
 </code></pre>
           <p><b>Ejemplo de output</b></p>
-<pre><code>/#----\
-|     |
-|     |
-|     |
-|     |
-|     |
-\-----/
+<pre><code>8
+16
 </code></pre>
 
-<p><b>Ejemplos de input</b></p>
-<pre><code>------\-/-/-\-----#-------\--/----------------\--\----\---/---
-</code></pre>
-          <p><b>Ejemplo de output</b></p>
-<pre><code>/---------\
-|         |
-|       /-/
-|       |
-\----\  \-----#-------\
-     |                |
-     |                |
-     \----------------/
-</code></pre>
+<p>Para que quede más claro el enunciado, se proporcionan las cadenas que se han contado en cada caso del ejemplo:</p>
 
-<p><b>Ejemplos de input</b></p>
-<pre><code>#----\----/--------\--/--------/
-</code></pre>
-          <p><b>Ejemplo de output</b></p>
-<pre><code>ERROR
+<pre><code>[3], [1], [1 2], [1 2 5], [2], [2 5], [5], [4]
+[3], [7], [4], [2], [5], [8], [1], [9], [10], [3 7], [2 5], [2 5 8], [1 9], [1 9 10], [5 8], [9 10]
 </code></pre>
 
           <hr />
