@@ -82,7 +82,7 @@ module.exports = function (seminarjs) {
     '9',
     '79',
     '91',
-    '1406'
+    '1669'
   ]
   },
   // Round 5: Fito
